@@ -23,7 +23,6 @@ end
 @kwdef mutable struct Cache
     generator_is_active::Vector{Bool}
     line_is_active::Vector{Bool}
-    generator_exp::Vector{Float64}
 end
 
 @kwdef mutable struct Options

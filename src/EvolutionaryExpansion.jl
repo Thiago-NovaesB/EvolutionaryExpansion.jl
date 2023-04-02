@@ -8,6 +8,7 @@ using Gurobi
 
 include("utils.jl")
 include("types.jl")
+include("data.jl")
 include("example.jl")
 include("model.jl")
 
