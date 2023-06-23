@@ -39,13 +39,14 @@ function total_cost(x::BitVector, prb::Problem)::Float64
     return expansion_cost + operational_cost
 end
 
-function ga_expansion()::Float64
-    prb = create_problem_generator()
+function ga_expansion(prb::Problem)::Float64
     c = prb.cache
     n = prb.size
     d = prb.data
-    res = Evolutionary.optimize(x->total_cost(x, prb), BitVector(zeros(3)), GA(selection=uniformranking(5),
-    mutation=flip, crossover=SPX))
+    res = Evolutionary.optimize(x->total_cost(x, prb),
+                                BitVector(zeros(n.J+n.K)),
+                                GA(selection=uniformranking(5), mutation=flip, crossover=SPX),
+                                Evolutionary.Options(time_limit=10.0))
 
     x = Evolutionary.minimizer(res)
     expansion_cost = 0
@@ -60,14 +61,14 @@ function ga_expansion()::Float64
     return Evolutionary.minimum(res)
 end
 
-function mip_expansion()::Float64
-    prb = create_problem_line()
+function mip_expansion(prb::Problem)::Float64
     n = prb.size
     d = prb.data
     o = prb.options
 
     model = Model(o.solver)
     set_silent(model)
+    set_time_limit_sec(model, 10.0)
 
     @variable(model, 0 <= g[i in 1:n.I] <= d.Gmax[i])
     @variable(model, -d.Fmax[l] <= f[l in 1:n.L] <= d.Fmax[l])
