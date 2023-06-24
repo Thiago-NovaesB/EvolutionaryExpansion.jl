@@ -76,11 +76,11 @@ function create_problem_huge()::Problem
     data = EvolutionaryExpansion.Data()
     options = EvolutionaryExpansion.Options()
 
-    size.I = 400 #number of generators
-    size.B = 600 #number of buses
-    size.L = 1000 #number of lines
-    size.J = 100 #number of generators candidates
-    size.K = 100 #number of lines candidates
+    size.I = 800 #number of generators
+    size.B = 1200 #number of buses
+    size.L = 2000 #number of lines
+    size.J = 200 #number of generators candidates
+    size.K = 200 #number of lines candidates
 
     options.use_kirchhoff_second_law = true
     options.solver = HiGHS.Optimizer
@@ -102,11 +102,11 @@ function create_problem_huge()::Problem
     end
 
     data.R = ones(size.L)
-    data.generation_cost = rand(size.I)*75
-    data.def_cost = ones(size.B)*10000
+    data.generation_cost = rand(size.I)*5
+    data.def_cost = ones(size.B)*1000
 
-    data.expansion_line_cost = ones(size.K)*10000
-    data.expansion_generator_cost = ones(size.J)*10000
+    data.expansion_line_cost = ones(size.K)*100
+    data.expansion_generator_cost = ones(size.J)*100
 
     prb.size = size
     prb.data = data
